@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<contextName>yoro</contextName>
+	<property name="path" value="D:/logs/"></property>
+	
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				<!-- 如果要实现在日志里面输出IP等客户端信息 可以写 一个 Filter 过滤器将 ip 等值放到到MDC里面（MDC.put） %X{ip}就是从MDC里面获取key是ip的值 -->
+				服务器运行时间：%r 日志级别:%p 时间:%d %n 日志位置:%logger %L %m
+				%xEx%n-------------------------------------------------------%n%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	    <file>${path}tech-coffee-debug.html</file>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${path}tech-coffee-debug-%d{yyyy-MM-dd}.%i.html.zip</fileNamePattern>
+	        <maxHistory>30</maxHistory>
+	        <timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- 设置文件大于100MB进行压缩归档 -->
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+	    </rollingPolicy>
+	    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder"><!-- 必须指定，否则不会往文件输出内容 -->
+	    	<layout class="ch.qos.logback.classic.html.HTMLLayout">
+	    		<pattern>
+					<!-- 
+					[host:%X{req.remoteHost}] [param:%X{req.queryString}] 
+					如果想在日子文件里面显示IP或参数信息配置MDC 过滤器
+					 <filter> 
+					 <filter-name>MDCInsertingServletFilter</filter-name> 
+					 <filter-class> ch.qos.logback.classic.helpers.MDCInsertingServletFilter</filter-class> </filter> 
+					<filter-mapping> 
+					<filter-name>MDCInsertingServletFilter</filter-name> <url-pattern>/*</url-pattern> 
+					</filter-mapping>
+					放在web.xml里面就行了 -->
+					[host:%X{req.remoteHost}] [param:%X{req.queryString}]
+					[URL:%X{req.requestURL}]%n
+					级别:%p,类名:%logger,时间:%d,输出行:%L,输出消息:"%m"%n
+				</pattern>
+	    	</layout>
+	    </encoder>
+	    <append>true</append>
+	    <prudent>false</prudent>
+	</appender>
+	
+	<appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	    <file>${path}tech-coffee-warn.html</file>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${path}tech-coffee-warn-%d{yyyy-MM-dd}.%i.html.zip</fileNamePattern>
+	        <maxHistory>30</maxHistory>
+	        <timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- 设置文件大于100MB进行压缩归档 -->
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+	    </rollingPolicy>
+	    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder"><!-- 必须指定，否则不会往文件输出内容 -->
+	    	<layout class="ch.qos.logback.classic.html.HTMLLayout">
+	    		<pattern>%d{HH:mm:ss.SSS}%-5level%logger{5}%msg%n</pattern>
+	    	</layout>
+	    </encoder>
+	    <append>true</append>
+	    <prudent>false</prudent>
+	</appender>
+
+	<appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	    <file>${path}tech-coffee-error.html</file>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${path}tech-coffee-error-%d{yyyy-MM-dd}.%i.html.zip</fileNamePattern>
+	        <maxHistory>30</maxHistory>
+	        <timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- 设置文件大于100MB进行压缩归档 -->
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+	    </rollingPolicy>
+	    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder"><!-- 必须指定，否则不会往文件输出内容 -->
+	    	<layout class="ch.qos.logback.classic.html.HTMLLayout">
+	    		<pattern>%d{HH:mm:ss.SSS}%-5level%logger{5}%msg%n</pattern>
+	    	</layout>
+	    </encoder>
+	    <append>true</append>
+	    <prudent>false</prudent>
+	</appender>
+	
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+	    <appender-ref ref="ERROR_FILE" />
+	    <appender-ref ref="WARN_FILE" />
+	    <appender-ref ref="DEBUG_FILE" />
+	</root>
+</configuration>
