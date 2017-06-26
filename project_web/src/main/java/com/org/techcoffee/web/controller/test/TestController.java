@@ -13,20 +13,19 @@ import com.org.techcoffee.web.controller.base.BaseController;
 @RequestMapping("/Test")
 public class TestController extends BaseController {
 
-	/**
-	 * Test
-	 * 
-	 * @param model
-	 * @return
-	 * @throws Exception 
-	 */
-	@RequestMapping(value = "init")
-	public String paysuccess(Model model, HttpServletResponse response, HttpSession session, String orderNo,
-			String is_success) throws Exception {
-		
-		
-		Thread.sleep(5000);
-		return "/business/Test";
+    /**
+     * Test
+     * 
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "init")
+    public String paysuccess(Model model, HttpServletResponse response, HttpSession session, String orderNo,
+            String is_success) throws Exception {
 
-	}
+        Thread.sleep(5000);
+        return "/business/Test";
+
+    }
 }
