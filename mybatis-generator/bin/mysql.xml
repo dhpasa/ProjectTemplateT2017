@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<classPathEntry
+		location="/Users/linliuan/libs/mysql-connector-java-commercial-5.1.30-bin.jar" />
+	<context id="MyBatis3" targetRuntime="MyBatis3">
+
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+		<!-- 自定义 注释部分，增加字段方面的注释 -->
+		<commentGenerator
+			type="org.mybatis.generator.plugins.MyCommentGeneratorPlugin">
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/oztt" userId="root" password="123456" />
+
+		<javaModelGenerator targetPackage="com.org.techcoffee.entity" targetProject="../mybatis-generator/src">
+			<property name="enableSubPackages" value="true" />
+			<property name="rootClass" value="com.org.techcoffee.base.entity" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.org.techcoffee.sqlmap" targetProject="../mybatis-generator/src">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- XMLMAPPER SPRING -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.org.techcoffee.dao" targetProject="../mybatis-generator/src">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+
+		<table tableName="t_express_info" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+
+
+
+
+
+	</context>
+</generatorConfiguration>
